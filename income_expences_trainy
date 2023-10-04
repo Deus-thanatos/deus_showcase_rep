@@ -1,0 +1,30 @@
+# values of products
+bubblegum = 202
+toffee = 118
+ice_cream = 2250
+milk_choc = 1680
+doughnut = 1075
+pancake = 80
+
+# earned amount of each product
+print(f"""Earned amount:
+Bubblegum: {bubblegum}
+Toffee: {toffee}
+Ice cream: {ice_cream}
+Milk chocolate: {milk_choc}
+Doughnut: {doughnut}
+Pancake: {pancake}""")
+
+income = (bubblegum + toffee + ice_cream + milk_choc + doughnut + pancake)
+
+print()
+print(f"Income: ${float(income)}")
+
+# expences block / net income
+print("Staff expenses:")
+staff_exp = int(input())
+print("Other expenses:")
+other_exp = int(input())
+net_income = income - (staff_exp + other_exp)
+
+print(f"Net income: ${net_income}")
