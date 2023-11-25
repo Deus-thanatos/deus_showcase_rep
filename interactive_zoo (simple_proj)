@@ -122,7 +122,8 @@ It looks like we will soon have more rabbits!"""
 animals = [camel, lion, deer, goose, bat, rabbit]
 
 while True:
-    print("Please enter the number of the habitat you would like to view (from 0 to 5): ")
+    print("Please enter the number of the habitat you would like to view (from 0 to 5).\n"
+          "Or print exit to shutdown the programme: ")
     n = input()
     if n == "exit":
         break
