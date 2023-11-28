@@ -1,0 +1,96 @@
+import random
+import time
+
+
+def start_game(user_name):
+    # Full list of winning conditions
+    win_conditions = {"rock": ["lightning", "gun", "air", "water", "dragon", "paper", "devil"],
+                      "gun": ["lightning", "sponge", "air", "water", "dragon", "paper", "devil"],
+                      "lightning": ["wolf", "sponge", "air", "water", "dragon", "paper", "devil"],
+                      "devil": ["wolf", "sponge", "air", "water", "dragon", "paper", "tree"],
+                      "dragon": ["wolf", "sponge", "air", "water", "human", "paper", "tree"],
+                      "water": ["wolf", "sponge", "air", "snake", "human", "paper", "tree"],
+                      "air": ["wolf", "sponge", "scissors", "snake", "human", "paper", "tree"],
+                      "paper": ["wolf", "sponge", "scissors", "snake", "human", "fire", "tree"],
+                      "sponge": ["wolf", "rock", "scissors", "snake", "human", "fire", "tree"],
+                      "wolf": ["gun", "rock", "scissors", "snake", "human", "fire", "tree"],
+                      "tree": ["gun", "rock", "scissors", "snake", "human", "fire", "lightning"],
+                      "human": ["gun", "rock", "scissors", "snake", "devil", "fire", "lightning"],
+                      "snake": ["gun", "rock", "scissors", "dragon", "devil", "fire", "lightning"],
+                      "scissors": ["gun", "rock", "water", "dragon", "devil", "fire", "lightning"],
+                      "fire": ["lightning", "gun", "air", "water", "dragon", "rock", "devil"]}
+
+    list_of_commands = "'!rating' - displays your rating.\n'!exit' - shutdowns the game.\n"
+
+    time.sleep(1)
+    print(f"Hello, {user_name}!", '\n')  # Greeting message
+
+    time.sleep(1)
+    print("""Full list of available options to choose:
+    Rock; Gun; Lightning; Devil; Dragon;
+    Water; Air; Paper; Sponge; Wolf;
+    Tree; Human; Snake; Scissors; Fire.
+    """)
+
+    time.sleep(1)
+    # List of options for the game (options separated by comma)
+    options_input = input("Enter the list of options separated by comma (or press Enter for default options): ").lower()
+    # Or it plays with default options
+    options = options_input.split(',') if options_input else ["rock", "paper", "scissors"]
+
+    time.sleep(1)
+    print("Okay, let's start!", '\n')
+
+    # File with scores
+    try:
+        with open('rating.txt', 'r') as file:
+            scores = dict(line.strip().split() for line in file)
+    except FileNotFoundError:
+        scores = {}
+
+    # By default user score = 0 every new game
+    user_score = int(scores.get(user_name, 0))
+
+    user_element = None
+
+    while user_element != "!exit":
+        time.sleep(1)
+        print("Print '!help' for available commands")
+
+        time.sleep(1)
+        # user move with selected options
+        user_element = input(f"Choose your move ({', '.join(options)}): ").lower()
+
+        computer_turn = random.choice(list(options))
+
+        if user_element == "!help":
+            time.sleep(1)
+            print(list_of_commands)
+        elif user_element == "!exit":
+            time.sleep(1)
+            print(f"Bye, {user_name}!")
+        elif user_element == "!rating":
+            time.sleep(1)
+            print(f"Your rating: {user_score}", '\n')
+        elif user_element not in win_conditions:
+            time.sleep(1)
+            print("Invalid input", '\n')
+        else:
+            if computer_turn in win_conditions[user_element]:
+                time.sleep(1)
+                print(f'Sorry, but the computer chose {computer_turn}', '\n')
+            elif user_element in win_conditions[computer_turn]:
+                user_score += 100
+                time.sleep(1)
+                print(f'Well done. The computer chose {computer_turn} and failed', '\n')
+            else:
+                user_score += 50
+                time.sleep(1)
+                print(f'There is a draw ({computer_turn})', '\n')
+
+
+if __name__ == "__main__":
+    print("Welcome in the 'Mega Rock-Paper-Scissors' game!\n")
+    time.sleep(2)
+    user_name = input("Enter your name: ")
+    start_game(user_name)
