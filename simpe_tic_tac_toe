@@ -1,0 +1,73 @@
+# write your code here
+def print_game_grid(grid):
+    print('-' * 9)
+    print('|', grid[0], grid[1], grid[2], '|')
+    print('|', grid[3], grid[4], grid[5], '|')
+    print('|', grid[6], grid[7], grid[8], '|')
+    print('-' * 9)
+
+
+def analyze_game_state(grid):
+    while True:
+        winning_combinations = [(0, 1, 2), (3, 4, 5), (6, 7, 8),
+                                (0, 3, 6), (1, 4, 7), (2, 5, 8),
+                                (0, 4, 8), (2, 4, 6)]
+
+        x_wins = any(grid[combo[0]] == grid[combo[1]] == grid[combo[2]] == 'X' for combo in winning_combinations)
+        o_wins = any(grid[combo[0]] == grid[combo[1]] == grid[combo[2]] == 'O' for combo in winning_combinations)
+
+        if x_wins:
+            return "X wins"
+        elif o_wins:
+            return "O wins"
+        elif x_wins and o_wins:
+            return 'Impossible'
+
+        count_x = grid.count('X')
+        count_o = grid.count('O')
+        if abs(count_x - count_o) >= 2:
+            return 'Impossible'
+
+        # Check for a draw or game not finished
+        if ' ' in grid:
+            return 'Game not finished'
+        else:
+            return 'Draw'
+
+
+def make_user_move(grid, symbol):
+    while True:
+        try:
+            row, col = map(int, input().split())
+            index = (row - 1) * 3 + (col - 1)
+            if 1 <= row <= 3 and 1 <= col <= 3:
+                if grid[index] == ' ':
+                    grid[index] = symbol
+                    break
+                else:
+                    print("This cell is occupied! Choose another one.")
+            else:
+                print("Coordinates should be from 1 to 3!")
+        except ValueError:
+            print("You should enter numbers!")
+
+
+game_grid = [' '] * 9
+current_symbol = 'X'
+
+# Game loop
+while True:
+    print_game_grid(game_grid)
+    make_user_move(game_grid, current_symbol)
+
+    # Analyze game state
+    result = analyze_game_state(game_grid)
+
+    # Print the final result and break the loop if there is a winner or a draw
+    if result != 'Game not finished':
+        print_game_grid(game_grid)
+        print(result)
+        break
+
+    # Switch to the other symbol for the next move
+    current_symbol = 'O' if current_symbol == 'X' else 'X'
