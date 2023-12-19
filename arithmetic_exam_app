@@ -1,0 +1,87 @@
+import random
+
+
+def generate_math_task(level):
+    while True:
+        try:
+            if level == "1":
+                num1 = random.randint(2, 9)
+                num2 = random.randint(2, 9)
+                operator = random.choice(["+", "-", "*"])
+                task = f"{num1} {operator} {num2}"
+                break
+            if level == "2":
+                num = random.randint(11, 29)
+                task = num
+                break
+            else:
+                print("Incorrect format.")
+                level = input()
+        except ValueError:
+            print("Incorrect format.")
+            level = input()
+
+    return task
+
+
+def check_answer(task, user_answer):
+    while True:
+        try:
+            if isinstance(task, int):
+                expected_answer = task ** 2
+            else:
+                expected_answer = eval(task)
+
+            user_answer = int(user_answer)
+
+            if user_answer == expected_answer:
+                print("Right")
+                return True
+            else:
+                print("Wrong!")
+                return False
+        except ValueError:
+            print("Incorrect format.")
+            user_answer = input()
+
+
+def game():
+    correct_answers = 0
+    level = input("Which level do you want? Enter a number:"
+                  "\n1 - simple operations with numbers 2-9"
+                  "\n2 - integral squares of 11-29\n")
+    for _ in range(5):
+        while True:
+            try:
+                task = generate_math_task(level)
+                print(task)
+                user_input = input()
+                if check_answer(task, user_input):
+                    correct_answers += 1
+                break
+            except ValueError:
+                print("Incorrect format.")
+
+    while True:
+        try:
+            answer = input(f"Your mark is {correct_answers}/5. Would you like to save your result to the file? "
+                           f"Enter yes or no.\n").lower()
+            if answer in ["yes", "y"]:
+                username = input("What is your name?\n")
+                if level == "1":
+                    with open("results.txt", "a") as file:
+                        file.write(f"{username}: {correct_answers}/5 in level {level} "
+                                   f"(simple operations with numbers 2-9).\n")
+                if level == "2":
+                    with open("results.txt", "a") as file:
+                        file.write(f"{username}: {correct_answers}/5 in level {level} "
+                                   f"(integral squares 11-29).\n")
+                print("The results are saved in 'results.txt'")
+                break
+            else:
+                break
+        except ValueError:
+            print("Incorrect format.")
+
+
+game()
