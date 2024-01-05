@@ -17,6 +17,7 @@ memory = 0
 
 def calculate_expression(calc):
     global memory
+    global result
 
     try:
         # Split the input into x, operation, and y
@@ -80,11 +81,11 @@ def check(v1, v2, v3):
     if msg != "":
         msg = msg_9 + msg
 
-    print(msg)
-
+    print(msg)  # Changed !!!!!!! was print(msg)
 
 def start_calc():
     global memory
+    global result
 
     while True:
         print(msg_0)
@@ -99,7 +100,7 @@ def start_calc():
                 print(msg_4)
                 answer_msg_4 = input()
 
-                if answer_msg_4 == "y":
+                if answer_msg_4 == "y" and is_one_digit(result):
                     print(msg_10)
                     answer = input()
                     if answer == "y":
@@ -109,7 +110,7 @@ def start_calc():
                             print(msg_12)
                             answer = input()
                             if answer == "y":
-                                memory += result
+                                memory = result
                                 break
                         else:
                             pass
@@ -119,7 +120,8 @@ def start_calc():
                 elif answer_msg_4 == "n":
                     break
                 else:
-                    print("Invalid response. Please enter 'y' or 'n'.")
+                    memory = result
+                    break
 
             while True:
                 print(msg_5)
