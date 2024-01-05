@@ -81,7 +81,8 @@ def check(v1, v2, v3):
     if msg != "":
         msg = msg_9 + msg
 
-    print(msg)
+    print(msg)  # Changed !!!!!!! was print(msg)
+
 
 def start_calc():
     global memory
